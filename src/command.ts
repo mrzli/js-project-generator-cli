@@ -59,7 +59,7 @@ Examples
       ...config,
       output: output ?? config.output,
       projectName: projectName ?? config.projectName,
-    }
+    };
 
     console.log(finalConfig);
   }
