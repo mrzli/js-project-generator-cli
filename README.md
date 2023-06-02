@@ -1,3 +1,15 @@
-# js-project-generator-cli
+# CLI for JavaScript/TypeScript Project Generator
 
-Project readme goes here.
+This is a CLI for generating a JavaScript/TypeScript project.
+
+## Installation
+
+```bash
+npm install -g @gmjs/js-project-generator-cli
+```
+
+## Usage
+
+```bash
+# TODO
+```
