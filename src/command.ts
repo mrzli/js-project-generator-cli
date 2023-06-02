@@ -1,8 +1,10 @@
 import { join } from 'node:path';
 import { cli } from '@gmjs/cli-wrapper';
 import { readPackageJsonSync } from '@gmjs/package-json';
+import { readTextAsync } from '@gmjs/fs-async';
+import { Config } from '@gmjs/js-project-generator';
 
-export function run(): void {
+export async function run(): Promise<void> {
   const result = cli(
     `
 Usage
@@ -40,7 +42,27 @@ Examples
     }
   );
 
-  console.log(result);
+  if (result.success) {
+    const configPath = result.options['config'].value as string;
+    const configContent = await readTextAsync(configPath);
+    const config = JSON.parse(configContent) as Config;
+
+    const outputOption = result.options['output'];
+    const output = outputOption ? (outputOption.value as string) : undefined;
+
+    const projectNameOption = result.options['projectName'];
+    const projectName = projectNameOption
+      ? (projectNameOption.value as string)
+      : undefined;
+
+    const finalConfig: Config = {
+      ...config,
+      output: output ?? config.output,
+      projectName: projectName ?? config.projectName,
+    }
+
+    console.log(finalConfig);
+  }
 }
 
 run();

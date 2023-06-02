@@ -4,6 +4,12 @@ All notable changes to the "js-project-generator-cli" will be documented in this
 
 ## [Unreleased]
 
+## [0.0.3] - 2023-06-02
+
+### Added
+
+- Implement usage of `@gmjs/js-project-generator`.
+
 ## [0.0.2] - 2023-06-02
 
 ### Fixed
