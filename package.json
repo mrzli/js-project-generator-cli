@@ -1,6 +1,6 @@
 {
   "name": "@gmjs/js-project-generator-cli",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "CLI for JavaScript/TypeScript project generator.",
   "author": {
     "name": "Goran Mržljak",

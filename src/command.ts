@@ -83,11 +83,21 @@ function cliResultToConfig(result: CliResult): Partial<Config> {
   const output = getOptionalStringValue(result, 'output');
   const projectName = getOptionalStringValue(result, 'projectName');
 
-  return {
+  const config: Partial<Config> = {
     projectType,
     output,
     projectName,
   };
+
+  // remove any undefined values
+  // eslint-disable-next-line unicorn/no-array-reduce
+  return (Object.keys(config) as readonly (keyof Config)[]).reduce(
+    (conf, key) => {
+      const value = config[key];
+      return value === undefined ? conf : { ...conf, [key]: value };
+    },
+    {}
+  );
 }
 
 function getOptionalStringValue<T extends string>(

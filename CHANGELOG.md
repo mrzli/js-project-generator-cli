@@ -4,6 +4,12 @@ All notable changes to the "js-project-generator-cli" will be documented in this
 
 ## [Unreleased]
 
+## [0.0.5] - 2023-06-03
+
+### Fixed
+
+- Fix issue with configuration merge.
+
 ## [0.0.4] - 2023-06-03
 
 ### Changed
