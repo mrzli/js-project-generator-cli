@@ -2,7 +2,7 @@ import { join } from 'node:path';
 import { cli } from '@gmjs/cli-wrapper';
 import { readPackageJsonSync } from '@gmjs/package-json';
 import { readTextAsync } from '@gmjs/fs-async';
-import { Config } from '@gmjs/js-project-generator';
+import { Config, generateProject } from '@gmjs/js-project-generator';
 
 export async function run(): Promise<void> {
   const result = cli(
@@ -61,7 +61,8 @@ Examples
       projectName: projectName ?? config.projectName,
     };
 
-    console.log(finalConfig);
+    await generateProject(finalConfig);
+    console.log('Project generated successfully!');
   }
 }
 
