@@ -4,6 +4,12 @@ All notable changes to the "js-project-generator-cli" will be documented in this
 
 ## [Unreleased]
 
+## [0.0.6] - 2023-06-03
+
+### Fixed
+
+- Fix issue with configuration validation by updating `@gmjs/js-project-generator`.
+
 ## [0.0.5] - 2023-06-03
 
 ### Fixed
