@@ -1,8 +1,12 @@
 import { join } from 'node:path';
-import { cli } from '@gmjs/cli-wrapper';
+import { CliResult, cli } from '@gmjs/cli-wrapper';
 import { readPackageJsonSync } from '@gmjs/package-json';
-import { readTextAsync } from '@gmjs/fs-async';
-import { Config, generateProject } from '@gmjs/js-project-generator';
+import { existsAsync, readTextAsync } from '@gmjs/fs-async';
+import {
+  Config,
+  ProjectType,
+  generateProject,
+} from '@gmjs/js-project-generator';
 
 export async function run(): Promise<void> {
   const result = cli(
@@ -11,8 +15,9 @@ Usage
   $ jsgen <input>
 
 Options
-  --config, -c  Path to config file
-  --output, -o  Output directory
+  --config, -c        Path to config file
+  --project-type, -t  Project type (shared, node, cli, browser, react)
+  --output, -o        Output directory
   --project-name, -p  Project name
 
 Examples
@@ -26,7 +31,13 @@ Examples
         config: {
           type: 'string',
           short: 'c',
-          required: true,
+          required: false,
+        },
+        projectType: {
+          type: 'string',
+          short: 't',
+          required: false,
+          choices: ['shared', 'node', 'cli', 'browser', 'react'],
         },
         output: {
           type: 'string',
@@ -43,27 +54,69 @@ Examples
   );
 
   if (result.success) {
-    const configPath = result.options['config'].value as string;
-    const configContent = await readTextAsync(configPath);
-    const config = JSON.parse(configContent) as Config;
+    const defaultConfigs = await Promise.all(
+      DEFAULT_CONFIG_PATHS.map((path) => readConfig(path))
+    );
 
-    const outputOption = result.options['output'];
-    const output = outputOption ? (outputOption.value as string) : undefined;
+    const configPath = getOptionalStringValue(result, 'config');
+    const config = await readConfig(configPath);
 
-    const projectNameOption = result.options['projectName'];
-    const projectName = projectNameOption
-      ? (projectNameOption.value as string)
-      : undefined;
+    const configFromCli = cliResultToConfig(result);
 
-    const finalConfig: Config = {
+    const finalConfig: Partial<Config> = {
+      // eslint-disable-next-line unicorn/no-array-reduce
+      ...defaultConfigs.reduce((conf, curr) => ({ ...conf, ...curr }), {}),
       ...config,
-      output: output ?? config.output,
-      projectName: projectName ?? config.projectName,
+      ...configFromCli,
     };
 
     await generateProject(finalConfig);
     console.log('Project generated successfully!');
   }
 }
+
+function cliResultToConfig(result: CliResult): Partial<Config> {
+  const projectType = getOptionalStringValue<ProjectType>(
+    result,
+    'projectType'
+  );
+  const output = getOptionalStringValue(result, 'output');
+  const projectName = getOptionalStringValue(result, 'projectName');
+
+  return {
+    projectType,
+    output,
+    projectName,
+  };
+}
+
+function getOptionalStringValue<T extends string>(
+  result: CliResult,
+  optionName: string
+): T | undefined {
+  const option = result.options[optionName];
+  return option ? (option.value as T) : undefined;
+}
+
+async function readConfig(
+  configPath: string | undefined
+): Promise<Partial<Config> | undefined> {
+  if (!configPath) {
+    return undefined;
+  }
+
+  const pathExists = await existsAsync(configPath);
+  if (!pathExists) {
+    return undefined;
+  }
+
+  const configContent = await readTextAsync(configPath);
+  return JSON.parse(configContent) as Partial<Config>;
+}
+
+const DEFAULT_CONFIG_PATHS: readonly string[] = [
+  '~/.jsgen.config.json',
+  './jsgen.config.json',
+];
 
 run();

@@ -4,6 +4,17 @@ All notable changes to the "js-project-generator-cli" will be documented in this
 
 ## [Unreleased]
 
+## [0.0.4] - 2023-06-03
+
+### Changed
+
+- Update dependencies.
+
+### Added
+
+- Add actual call to project generation.
+- Implement handling for default configurations at `./jsgen.config.js` and `~/.jsgen.config.js`.
+
 ## [0.0.3] - 2023-06-02
 
 ### Added
