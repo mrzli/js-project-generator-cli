@@ -1,6 +1,6 @@
 {
   "name": "@gmjs/js-project-generator-cli",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "CLI for JavaScript/TypeScript project generator.",
   "author": {
     "name": "Goran Mržljak",
@@ -14,12 +14,9 @@
     "url": "https://github.com/mrzli/js-project-generator-cli"
   },
   "homepage": "https://github.com/mrzli/js-project-generator-cli",
-  "main": "dist/index.js",
-  "files": [
-    "dist"
-  ],
+  "main": "src/index.js",
   "bin": {
-    "jsgen": "dist/index.js"
+    "jsgen": "src/index.js"
   },
   "scripts": {
     "start:dev": "ts-node src/index.ts",
@@ -29,13 +26,13 @@
     "test": "npm run lint && npm run test-only",
     "build-only": "shx rm -rf ./dist && tsc --project tsconfig.lib.json",
     "build": "npm run test && npm run build-only",
-    "pub-only": "npm publish --access public",
+    "pub-only": "npmpub",
     "pub": "npm run build && npm run pub-only"
   },
   "dependencies": {
     "@gmjs/cli-wrapper": "^0.0.1",
     "@gmjs/fs-async": "^0.0.4",
-    "@gmjs/js-project-generator": "^0.0.11",
+    "@gmjs/js-project-generator": "^0.0.13",
     "@gmjs/package-json": "^0.0.1",
     "tslib": "^2.5.3"
   },
