@@ -1,4 +1,5 @@
 import { join } from 'node:path';
+import { homedir } from 'node:os';
 import { CliResult, cli } from '@gmjs/cli-wrapper';
 import { readPackageJsonSync } from '@gmjs/package-json';
 import { existsAsync, readTextAsync } from '@gmjs/fs-async';
@@ -54,8 +55,9 @@ Examples
   );
 
   if (result.success) {
+    const defaultConfigsPath = getDefaultConfigPaths();
     const defaultConfigs = await Promise.all(
-      DEFAULT_CONFIG_PATHS.map((path) => readConfig(path))
+      defaultConfigsPath.map((path) => readConfig(path))
     );
 
     const configPath = getOptionalStringValue(result, 'config');
@@ -124,9 +126,10 @@ async function readConfig(
   return JSON.parse(configContent) as Partial<Config>;
 }
 
-const DEFAULT_CONFIG_PATHS: readonly string[] = [
-  '~/.jsgen.config.json',
-  './jsgen.config.json',
-];
+function getDefaultConfigPaths(): readonly string[] {
+  const homeDir = homedir();
+
+  return [`${homeDir}/.jsgen.config.json`, './jsgen.config.json'];
+}
 
 run();

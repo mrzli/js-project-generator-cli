@@ -4,6 +4,12 @@ All notable changes to the "js-project-generator-cli" will be documented in this
 
 ## [Unreleased]
 
+## [0.0.7] - 2023-06-04
+
+### Fixed
+
+- Fix path to home directory default config file.
+
 ## [0.0.6] - 2023-06-03
 
 ### Fixed
