@@ -1,6 +1,6 @@
 {
   "name": "@gmjs/js-project-generator-cli",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "CLI for JavaScript/TypeScript project generator.",
   "author": {
     "name": "Goran Mržljak",
@@ -35,7 +35,7 @@
   "dependencies": {
     "@gmjs/cli-wrapper": "^0.0.1",
     "@gmjs/fs-async": "^0.0.4",
-    "@gmjs/js-project-generator": "^0.0.10",
+    "@gmjs/js-project-generator": "^0.0.11",
     "@gmjs/package-json": "^0.0.1",
     "tslib": "^2.5.3"
   },

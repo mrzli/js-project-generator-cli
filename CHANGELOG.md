@@ -4,6 +4,12 @@ All notable changes to the "js-project-generator-cli" will be documented in this
 
 ## [Unreleased]
 
+## [0.0.8] - 2023-06-04
+
+### Fixed
+
+- Fix double application of `output` directory option when generating a project.
+
 ## [0.0.7] - 2023-06-04
 
 ### Fixed
