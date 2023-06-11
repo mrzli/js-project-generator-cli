@@ -54,11 +54,7 @@ Examples
     }
   );
 
-  if (result.success) {
-    if (result.options['help'] || result.options['version']) {
-      return;
-    }
-
+  if (result.type === 'execute') {
     const defaultConfigsPath = getDefaultConfigPaths();
     const defaultConfigs = await Promise.all(
       defaultConfigsPath.map((path) => readConfig(path))

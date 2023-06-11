@@ -4,6 +4,12 @@ All notable changes to the "js-project-generator-cli" will be documented in this
 
 ## [Unreleased]
 
+## [0.0.12] - 2023-06-11
+
+### Fixed
+
+- Fix issue where project was being generated on version or help command (second try).
+
 ## [0.0.11] - 2023-06-11
 
 ### Fixed
