@@ -51,13 +51,13 @@ Examples
           required: false,
         },
       },
-    }
+    },
   );
 
   if (result.type === 'execute') {
     const defaultConfigsPath = getDefaultConfigPaths();
     const defaultConfigs = await Promise.all(
-      defaultConfigsPath.map((path) => readConfig(path))
+      defaultConfigsPath.map((path) => readConfig(path)),
     );
 
     const configPath = getOptionalStringValue(result, 'config');
@@ -80,7 +80,7 @@ Examples
 function cliResultToConfig(result: CliResult): Partial<Config> {
   const projectType = getOptionalStringValue<ProjectType>(
     result,
-    'projectType'
+    'projectType',
   );
   const output = getOptionalStringValue(result, 'output');
   const projectName = getOptionalStringValue(result, 'projectName');
@@ -98,20 +98,20 @@ function cliResultToConfig(result: CliResult): Partial<Config> {
       const value = config[key];
       return value === undefined ? conf : { ...conf, [key]: value };
     },
-    {}
+    {},
   );
 }
 
 function getOptionalStringValue<T extends string>(
   result: CliResult,
-  optionName: string
+  optionName: string,
 ): T | undefined {
   const option = result.options[optionName];
   return option ? (option.value as T) : undefined;
 }
 
 async function readConfig(
-  configPath: string | undefined
+  configPath: string | undefined,
 ): Promise<Partial<Config> | undefined> {
   if (!configPath) {
     return undefined;
