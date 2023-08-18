@@ -1,6 +1,6 @@
 import { join } from 'node:path';
 import { homedir } from 'node:os';
-import { CliResult, cli } from '@gmjs/cli-wrapper';
+import { Command, Option } from 'commander';
 import { readPackageJsonSync } from '@gmjs/package-json';
 import { existsAsync, readTextAsync } from '@gmjs/fs-async';
 import {
@@ -10,80 +10,56 @@ import {
 } from '@gmjs/js-project-generator';
 
 export async function run(): Promise<void> {
-  const result = cli(
-    `
-Usage
-  $ jsgen <input>
+  const program = new Command();
+  program
+    .name('jsgen')
+    .description('Generate a TypeScript project.')
+    .version(readPackageJsonSync(join(__dirname, '..')).version ?? '')
+    .option('-c, --config <config>', 'Path to config file')
+    .addOption(
+      new Option('-t, --project-type <projectType>', 'Project type').choices([
+        'shared',
+        'node',
+        'cli',
+        'browser',
+        'react',
+      ]),
+    )
+    .option('-o, --output <output>', 'Output directory')
+    .option('-p, --project-name <projectName>', 'Project name')
+    .action(jsgen);
 
-Options
-  --config, -c        Path to config file
-  --project-type, -t  Project type (shared, node, cli, browser, react)
-  --output, -o        Output directory
-  --project-name, -p  Project name
-
-Examples
-  $ jsgen --config config.json --output . --project-name my-project
-`,
-    {
-      meta: {
-        version: readPackageJsonSync(join(__dirname, '..')).version ?? '',
-      },
-      options: {
-        config: {
-          type: 'string',
-          short: 'c',
-          required: false,
-        },
-        projectType: {
-          type: 'string',
-          short: 't',
-          required: false,
-          choices: ['shared', 'node', 'cli', 'browser', 'react'],
-        },
-        output: {
-          type: 'string',
-          short: 'o',
-          required: false,
-        },
-        projectName: {
-          type: 'string',
-          short: 'p',
-          required: false,
-        },
-      },
-    },
-  );
-
-  if (result.type === 'execute') {
-    const defaultConfigsPath = getDefaultConfigPaths();
-    const defaultConfigs = await Promise.all(
-      defaultConfigsPath.map((path) => readConfig(path)),
-    );
-
-    const configPath = getOptionalStringValue(result, 'config');
-    const config = await readConfig(configPath);
-
-    const configFromCli = cliResultToConfig(result);
-
-    const finalConfig: Partial<Config> = {
-      // eslint-disable-next-line unicorn/no-array-reduce
-      ...defaultConfigs.reduce((conf, curr) => ({ ...conf, ...curr }), {}),
-      ...config,
-      ...configFromCli,
-    };
-
-    await generateProject(finalConfig);
-    console.log('Project generated successfully!');
-  }
+  await program.parseAsync(process.argv);
 }
 
-function cliResultToConfig(result: CliResult): Partial<Config> {
-  const projectType = getOptionalStringValue<ProjectType>(
-    result,
-    'projectType',
+type Options = Readonly<Record<string, string | number | boolean | undefined>>;
+
+async function jsgen(options: Options, _command: Command): Promise<void> {
+  const defaultConfigPaths = getDefaultConfigPaths();
+  const defaultConfigs = await Promise.all(
+    defaultConfigPaths.map((path) => readConfig(path)),
   );
-  const output = getOptionalStringValue(result, 'output');
-  const projectName = getOptionalStringValue(result, 'projectName');
+
+  const configPath = options['config'] as string | undefined;
+  const config = await readConfig(configPath);
+
+  const configFromCli = cliResultToConfig(options);
+
+  const finalConfig: Partial<Config> = {
+    // eslint-disable-next-line unicorn/no-array-reduce
+    ...defaultConfigs.reduce((conf, curr) => ({ ...conf, ...curr }), {}),
+    ...config,
+    ...configFromCli,
+  };
+
+  await generateProject(finalConfig);
+  console.log('Project generated successfully!');
+}
+
+function cliResultToConfig(options: Options): Partial<Config> {
+  const projectType = options['projectType'] as ProjectType | undefined;
+  const output = options['output'] as string | undefined;
+  const projectName = options['projectName'] as string | undefined;
 
   const config: Partial<Config> = {
     projectType,
@@ -100,14 +76,6 @@ function cliResultToConfig(result: CliResult): Partial<Config> {
     },
     {},
   );
-}
-
-function getOptionalStringValue<T extends string>(
-  result: CliResult,
-  optionName: string,
-): T | undefined {
-  const option = result.options[optionName];
-  return option ? (option.value as T) : undefined;
 }
 
 async function readConfig(

@@ -4,6 +4,13 @@ All notable changes to the "js-project-generator-cli" will be documented in this
 
 ## [Unreleased]
 
+## [0.0.14] - 2023-08-18
+
+### Changed
+
+- Update packages to latest versions.
+- Use 'commander' for CLI.
+
 ## [0.0.13] - 2023-07-22
 
 ### Changed
