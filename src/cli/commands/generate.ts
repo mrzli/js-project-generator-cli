@@ -15,7 +15,6 @@ export function addCommandGenerate(program: Command): Command {
     .alias('g')
     .description('Generate a new project')
     .argument('[output]', 'Output directory', '.')
-    .option('-c, --config <config>', 'Path to config file')
     .addOption(
       new Option('-t, --project-type <projectType>', 'Project type')
         .choices(['shared', 'node', 'cli', 'browser', 'react'])

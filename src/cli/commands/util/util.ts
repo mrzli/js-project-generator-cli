@@ -1,6 +1,6 @@
 import { homedir } from 'node:os';
 import { GlobalConfig } from '../types';
-import { existsAsync, readTextAsync } from '@gmjs/fs-async';
+import { ensureDirAsync, existsAsync, readTextAsync, writeTextAsync } from '@gmjs/fs-async';
 
 export async function readGlobalConfig(): Promise<Partial<GlobalConfig>> {
   const configPath = getGlobalConfigPath();
@@ -13,6 +13,18 @@ export async function readGlobalConfig(): Promise<Partial<GlobalConfig>> {
   return JSON.parse(configContent) as Partial<GlobalConfig>;
 }
 
+export async function writeGlobalConfig(config: GlobalConfig): Promise<void> {
+  await ensureDirAsync(getGlobalConfigDir());
+
+  const configPath = getGlobalConfigPath();
+  const configContent = JSON.stringify(config, undefined, 2);
+  await writeTextAsync(configPath, configContent);
+}
+
+function getGlobalConfigDir(): string {
+  return `${homedir()}/.jsgen`;
+}
+
 function getGlobalConfigPath(): string {
-  return `${homedir()}/.jsgen.config.json`;
+  return `${ getGlobalConfigDir()}/config.json`;
 }
