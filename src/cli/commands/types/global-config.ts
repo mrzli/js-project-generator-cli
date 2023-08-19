@@ -5,3 +5,5 @@ export interface GlobalConfig {
   readonly authorUrl: string;
   readonly githubAccount: string;
 }
+
+export type GlobalConfigOptionName = keyof GlobalConfig;

@@ -1,8 +1,14 @@
+import { GlobalConfigOptionName } from './types/global-config';
 import { Command } from 'commander';
 import { input } from '@inquirer/prompts';
 import { Writable } from 'type-fest';
 import { mapGetOrThrow } from '@gmjs/data-container-util';
-import { readGlobalConfig, writeGlobalConfig } from './util';
+import {
+  GLOBAL_CONFIG_OPTION_DISPLAY_NAME_MAP,
+  GLOBAL_CONFIG_OPTION_NAMES,
+  readGlobalConfig,
+  writeGlobalConfig,
+} from './util';
 import { GlobalConfig } from './types';
 
 type OptionValue = never;
@@ -18,22 +24,12 @@ export function addCommandConfigure(program: Command): Command {
   return program;
 }
 
-type OptionName = keyof GlobalConfig;
-
 async function action(_options: Options, _command: Command): Promise<void> {
   const globalConfig = await readGlobalConfig();
 
-  const optionsNames: readonly OptionName[] = [
-    'scopeName',
-    'author',
-    'email',
-    'authorUrl',
-    'githubAccount',
-  ];
-
   const newGlobalConfig: Partial<Writable<GlobalConfig>> = {};
 
-  for (const optionName of optionsNames) {
+  for (const optionName of GLOBAL_CONFIG_OPTION_NAMES) {
     const value = await promptForValue(
       globalConfig,
       optionName,
@@ -48,7 +44,7 @@ async function action(_options: Options, _command: Command): Promise<void> {
 
 async function promptForValue(
   globalConfig: Partial<GlobalConfig>,
-  optionName: OptionName,
+  optionName: GlobalConfigOptionName,
   validator: (value: string) => boolean,
 ): Promise<string> {
   const displayName = mapGetOrThrow(
@@ -75,12 +71,3 @@ async function promptForValue(
 function validateConfigOption(value: string | undefined): boolean {
   return value !== undefined && value.trim().length > 0;
 }
-
-const GLOBAL_CONFIG_OPTION_DISPLAY_NAME_MAP: ReadonlyMap<OptionName, string> =
-  new Map<OptionName, string>([
-    ['scopeName', 'Scope Name'],
-    ['author', 'Author'],
-    ['email', 'Email'],
-    ['authorUrl', 'Author URL'],
-    ['githubAccount', 'GitHub Account'],
-  ]);

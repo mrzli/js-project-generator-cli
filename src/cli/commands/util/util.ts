@@ -1,6 +1,11 @@
 import { homedir } from 'node:os';
-import { GlobalConfig } from '../types';
-import { ensureDirAsync, existsAsync, readTextAsync, writeTextAsync } from '@gmjs/fs-async';
+import { GlobalConfig, GlobalConfigOptionName } from '../types';
+import {
+  ensureDirAsync,
+  existsAsync,
+  readTextAsync,
+  writeTextAsync,
+} from '@gmjs/fs-async';
 
 export async function readGlobalConfig(): Promise<Partial<GlobalConfig>> {
   const configPath = getGlobalConfigPath();
@@ -26,5 +31,24 @@ function getGlobalConfigDir(): string {
 }
 
 function getGlobalConfigPath(): string {
-  return `${ getGlobalConfigDir()}/config.json`;
+  return `${getGlobalConfigDir()}/config.json`;
 }
+
+export const GLOBAL_CONFIG_OPTION_NAMES: readonly GlobalConfigOptionName[] = [
+  'scopeName',
+  'author',
+  'email',
+  'authorUrl',
+  'githubAccount',
+];
+
+export const GLOBAL_CONFIG_OPTION_DISPLAY_NAME_MAP: ReadonlyMap<
+  GlobalConfigOptionName,
+  string
+> = new Map<GlobalConfigOptionName, string>([
+  ['scopeName', 'Scope Name'],
+  ['author', 'Author'],
+  ['email', 'Email'],
+  ['authorUrl', 'Author URL'],
+  ['githubAccount', 'GitHub Account'],
+]);
