@@ -46,9 +46,23 @@ export const GLOBAL_CONFIG_OPTION_DISPLAY_NAME_MAP: ReadonlyMap<
   GlobalConfigOptionName,
   string
 > = new Map<GlobalConfigOptionName, string>([
-  ['scopeName', 'Scope Name'],
-  ['author', 'Author'],
-  ['email', 'Email'],
-  ['authorUrl', 'Author URL'],
-  ['githubAccount', 'GitHub Account'],
+  ['scopeName', 'scope name'],
+  ['author', 'author'],
+  ['email', 'email'],
+  ['authorUrl', 'author URL'],
+  ['githubAccount', 'GitHub account'],
 ]);
+
+export function isBlankString(value: string): boolean {
+  return value.trim().length === 0;
+}
+
+export function isNonBlankString(value: string): boolean {
+  return !isBlankString(value);
+}
+
+export function isValidIdentifier(value: string): boolean {
+  return /^[A-Za-z][\dA-Za-z]*(-[\dA-Za-z]+)*$/.test(value);
+}
+
+export const INVALID_IDENTIFIER_MESSAGE = `Invalid identifier. Must contain only letters, numbers, and dashes. Must start with a letter. Cannot end with a dash or contain consecutive dashes. Example of valid identifiers: 'some-valid-identifier' or 'AN-identifier1'.`;

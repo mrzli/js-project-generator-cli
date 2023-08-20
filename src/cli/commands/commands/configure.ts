@@ -1,4 +1,4 @@
-import { GlobalConfigOptionName } from './types/global-config';
+import { GlobalConfigOptionName } from '../types/global-config';
 import { Command } from 'commander';
 import { input } from '@inquirer/prompts';
 import { Writable } from 'type-fest';
@@ -6,10 +6,11 @@ import { mapGetOrThrow } from '@gmjs/data-container-util';
 import {
   GLOBAL_CONFIG_OPTION_DISPLAY_NAME_MAP,
   GLOBAL_CONFIG_OPTION_NAMES,
+  isNonBlankString,
   readGlobalConfig,
   writeGlobalConfig,
-} from './util';
-import { GlobalConfig } from './types';
+} from '../util';
+import { GlobalConfig } from '../types';
 
 type OptionValue = never;
 type Options = Readonly<Record<string, OptionValue | undefined>>;
@@ -33,7 +34,7 @@ async function action(_options: Options, _command: Command): Promise<void> {
     const value = await promptForValue(
       globalConfig,
       optionName,
-      validateConfigOption,
+      isNonBlankString,
     );
     newGlobalConfig[optionName] = value;
   }
@@ -66,8 +67,4 @@ async function promptForValue(
     });
     return answer.trim().length > 0 ? answer : currentValue;
   }
-}
-
-function validateConfigOption(value: string | undefined): boolean {
-  return value !== undefined && value.trim().length > 0;
 }

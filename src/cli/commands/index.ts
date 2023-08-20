@@ -1,2 +1,1 @@
-export * from './generate';
-export * from './configure';
+export * from './commands';
