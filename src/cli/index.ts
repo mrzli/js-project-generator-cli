@@ -1,2 +1,2 @@
 export * from './program';
-export * from './impl';
+export * from './commands';
