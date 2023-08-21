@@ -1,5 +1,5 @@
-import { PROJECT_TYPE_LIB_ENVIRONMENT_LIST, ProjectType } from '../../types';
-import { PROJECT_TYPE_APP_ENVIRONMENT_LIST } from './../../types/project-type-app-environment-data';
+import { KINDS_OF_TEMPLATE_LIB, ProjectKind } from '../../types';
+import { KINDS_OF_TEMPLATE_APP } from '../../types/template-app';
 import { Options } from './types';
 
 export function validateCommandLineInputs(options: Options): Options {
@@ -10,7 +10,7 @@ export function validateCommandLineInputs(options: Options): Options {
     case 'app': {
       if (
         environment !== undefined &&
-        PROJECT_TYPE_APP_ENVIRONMENT_LIST.every((e) => e !== environment)
+        KINDS_OF_TEMPLATE_APP.every((e) => e !== environment)
       ) {
         console.warn(invalidEnvironmentErrorMessage(projectType, environment));
         return {
@@ -23,7 +23,7 @@ export function validateCommandLineInputs(options: Options): Options {
     case 'lib': {
       if (
         environment !== undefined &&
-        PROJECT_TYPE_LIB_ENVIRONMENT_LIST.every((e) => e !== environment)
+        KINDS_OF_TEMPLATE_LIB.every((e) => e !== environment)
       ) {
         console.warn(invalidEnvironmentErrorMessage(projectType, environment));
         return {
@@ -39,7 +39,7 @@ export function validateCommandLineInputs(options: Options): Options {
 }
 
 function invalidEnvironmentErrorMessage(
-  projectType: ProjectType,
+  projectType: ProjectKind,
   environment: string,
 ): string {
   return `Invalid environment '${environment}' for project type '${projectType}'. You will be prompted to select a valid environment.`;

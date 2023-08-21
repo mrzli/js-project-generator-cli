@@ -21,8 +21,8 @@ export function addCommandGenerate(program: Command): Command {
     )
     .addOption(
       new Option(
-        '-e, --environment <environment>',
-        'Project environment',
+        '-e, --template <template>',
+        'Project template',
       ).choices(['shared', 'node', 'cli', 'browser', 'react']),
     )
     .option('-c, --command-name <commandName>', 'Command name')

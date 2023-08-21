@@ -1,12 +1,12 @@
 import { input, select } from '@inquirer/prompts';
 import {
   GeneratorInputs,
-  ProjectType,
-  ProjectTypeAppEnvironmentDataAny,
-  ProjectTypeAppEnvironmentType,
-  ProjectTypeDataAny,
-  ProjectTypeLibEnvironmentDataAny,
-  ProjectTypeLibEnvironmentType,
+  ProjectKind,
+  TemplateAppKind,
+  ProjectDataAny,
+  TemplateLibKind,
+  TemplateLibDataAny,
+  TemplateAppDataAny,
 } from '../../types';
 import { Options } from './types';
 import {
@@ -26,23 +26,23 @@ export async function readGeneratorInputs(
     }),
   );
 
-  const projectTypeData = await readProjectTypeData(output, options);
+  const projectData = await readProjectData(output, options);
 
   return {
     output,
     projectName,
-    projectTypeData,
+    projectData,
   };
 }
 
-async function readProjectTypeData(
+async function readProjectData(
   output: string,
   options: Options,
-): Promise<ProjectTypeDataAny> {
-  const projectType = await promptValueIfMissing<ProjectType>(
-    options['projectType'] as ProjectType | undefined,
+): Promise<ProjectDataAny> {
+  const projectType = await promptValueIfMissing<ProjectKind>(
+    options['projectType'] as ProjectKind | undefined,
     () =>
-      select<ProjectType>({
+      select<ProjectKind>({
         message: 'Select project type',
         choices: [
           {
@@ -59,37 +59,30 @@ async function readProjectTypeData(
 
   switch (projectType) {
     case 'app': {
-      const environment = await readProjectTypeAppEnvironmentData(
-        output,
-        options,
-      );
+      const template = await readTemplateAppData(options);
       return {
-        type: projectType,
-        environment,
+        kind: projectType,
+        template,
       };
     }
     case 'lib': {
-      const environment = await readProjectTypeLibEnvironmentData(
-        output,
-        options,
-      );
+      const template = await readTemplateLibData(options);
       return {
-        type: projectType,
-        environment,
+        kind: projectType,
+        template,
       };
     }
   }
 }
 
-async function readProjectTypeAppEnvironmentData(
-  output: string,
+async function readTemplateAppData(
   options: Options,
-): Promise<ProjectTypeAppEnvironmentDataAny> {
-  const environment = await promptValueIfMissing<ProjectTypeAppEnvironmentType>(
-    options['environment'] as ProjectTypeAppEnvironmentType | undefined,
+): Promise<TemplateAppDataAny> {
+  const templateKind = await promptValueIfMissing<TemplateAppKind>(
+    options['template'] as TemplateAppKind | undefined,
     () =>
-      select<ProjectTypeAppEnvironmentType>({
-        message: 'Select environment',
+      select<TemplateAppKind>({
+        message: 'Select template',
         choices: [
           {
             value: 'react',
@@ -107,15 +100,15 @@ async function readProjectTypeAppEnvironmentData(
       }),
   );
 
-  switch (environment) {
+  switch (templateKind) {
     case 'react': {
       return {
-        environment,
+        kind: templateKind,
       };
     }
     case 'node': {
       return {
-        environment,
+        kind: templateKind,
       };
     }
     case 'cli': {
@@ -129,22 +122,21 @@ async function readProjectTypeAppEnvironmentData(
       );
 
       return {
-        environment,
+        kind: templateKind,
         commandName,
       };
     }
   }
 }
 
-async function readProjectTypeLibEnvironmentData(
-  output: string,
+async function readTemplateLibData(
   options: Options,
-): Promise<ProjectTypeLibEnvironmentDataAny> {
-  const environment = await promptValueIfMissing<ProjectTypeLibEnvironmentType>(
-    options['environment'] as ProjectTypeLibEnvironmentType | undefined,
+): Promise<TemplateLibDataAny> {
+  const templateKind = await promptValueIfMissing<TemplateLibKind>(
+    options['template'] as TemplateLibKind | undefined,
     () =>
-      select<ProjectTypeLibEnvironmentType>({
-        message: 'Select environment',
+      select<TemplateLibKind>({
+        message: 'Select template',
         choices: [
           {
             value: 'shared',
@@ -166,25 +158,25 @@ async function readProjectTypeLibEnvironmentData(
       }),
   );
 
-  switch (environment) {
+  switch (templateKind) {
     case 'shared': {
       return {
-        environment,
+        kind: templateKind,
       };
     }
     case 'node': {
       return {
-        environment,
+        kind: templateKind,
       };
     }
     case 'browser': {
       return {
-        environment,
+        kind: templateKind,
       };
     }
     case 'react': {
       return {
-        environment,
+        kind: templateKind,
       };
     }
   }

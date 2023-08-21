@@ -1,7 +1,7 @@
-import { ProjectTypeDataAny } from './project-type-data';
+import { ProjectDataAny } from './project-kind';
 
 export interface GeneratorInputs {
   readonly output: string;
   readonly projectName: string;
-  readonly projectTypeData: ProjectTypeDataAny;
+  readonly projectData: ProjectDataAny;
 }
