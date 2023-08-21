@@ -1,9 +1,10 @@
-import { Command } from 'commander';
+import { Command, Option } from 'commander';
 import { Config, generateProject } from '@gmjs/js-project-generator';
 import { readGlobalConfig } from '../../util';
 import { validateGlobalConfig } from './validate-global-config';
 import { Options } from './types';
 import { readGeneratorInputs } from './read-inputs';
+import { validateCommandLineInputs } from './validate-command-line-inputs';
 
 export function addCommandGenerate(program: Command): Command {
   program
@@ -11,12 +12,20 @@ export function addCommandGenerate(program: Command): Command {
     .alias('g')
     .description('Generate a new project')
     .argument('[output]', 'Output directory', '.')
-    // .addOption(
-    //   new Option('-t, --project-type <projectType>', 'Project type')
-    //     .choices(['shared', 'node', 'cli', 'browser', 'react'])
-    //     .makeOptionMandatory(true),
-    // )
-    // .requiredOption('-p, --project-name <projectName>', 'Project name')
+    .option('-p, --project-name <projectName>', 'Project name')
+    .addOption(
+      new Option('-t, --project-type <projectType>', 'Project type').choices([
+        'app',
+        'lib',
+      ]),
+    )
+    .addOption(
+      new Option(
+        '-e, --environment <environment>',
+        'Project environment',
+      ).choices(['shared', 'node', 'cli', 'browser', 'react']),
+    )
+    .option('-c, --command-name <commandName>', 'Command name')
     .action(action);
 
   return program;
@@ -35,7 +44,9 @@ async function action(
     return;
   }
 
-  const generatorInputs = await readGeneratorInputs(output, options);
+  const finalOptions = validateCommandLineInputs(options);
+
+  const generatorInputs = await readGeneratorInputs(output, finalOptions);
 
   console.log(generatorInputs);
 
