@@ -20,10 +20,13 @@ export function addCommandGenerate(program: Command): Command {
       ]),
     )
     .addOption(
-      new Option(
-        '-e, --template <template>',
-        'Project template',
-      ).choices(['shared', 'node', 'cli', 'browser', 'react']),
+      new Option('-e, --template <template>', 'Project template').choices([
+        'shared',
+        'node',
+        'cli',
+        'browser',
+        'react',
+      ]),
     )
     .option('-c, --command-name <commandName>', 'Command name')
     .action(action);
