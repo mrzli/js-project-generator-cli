@@ -42,5 +42,5 @@ function invalidEnvironmentErrorMessage(
   projectType: ProjectType,
   environment: string,
 ): string {
-  return `Invalid environment '${environment}' for project type '${projectType}'.`;
+  return `Invalid environment '${environment}' for project type '${projectType}'. You will be prompted to select a valid environment.`;
 }
