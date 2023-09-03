@@ -1,5 +1,5 @@
 import { Command, Option } from 'commander';
-import { Config, generateProject } from '@gmjs/js-project-generator';
+import { generateProject, GenerateInput } from '@gmjs/js-project-generator';
 import { readGlobalConfig } from '../../util';
 import { validateGlobalConfig } from './validate-global-config';
 import { Options } from './types';
@@ -40,10 +40,10 @@ async function action(
   _command: Command,
 ): Promise<void> {
   const globalConfig = await readGlobalConfig();
-  const errors = validateGlobalConfig(globalConfig);
-  if (errors.length > 0) {
+  const validationResult = validateGlobalConfig(globalConfig);
+  if (!validationResult.isValid) {
     console.log("Invalid global configuration. Run 'jsgen configure' to fix.");
-    console.log(errors.join('\n'));
+    console.log(validationResult.errors.join('\n'));
     return;
   }
 
@@ -51,13 +51,11 @@ async function action(
 
   const generatorInputs = await readGeneratorInputs(output, finalOptions);
 
-  console.log(generatorInputs);
+  const finalInput: GenerateInput = {
+    ...generatorInputs,
+    authorData: validationResult.globalConfig,
+  };
 
-  // const finalConfig: Partial<Config> = {
-  //   ...globalConfig,
-  //   ...configFromCli,
-  // };
-
-  // await generateProject(finalConfig);
+  await generateProject(finalInput);
   console.log('Project generated successfully!');
 }

@@ -1,24 +1,25 @@
 import { input, select } from '@inquirer/prompts';
 import {
-  GeneratorInputs,
-  ProjectKind,
-  TemplateAppKind,
+  GenerateInput,
   ProjectDataAny,
-  TemplateLibKind,
-  TemplateLibDataAny,
+  ProjectKind,
   TemplateAppDataAny,
-} from '../../types';
+  TemplateAppKind,
+  TemplateLibDataAny,
+  TemplateLibKind,
+} from '@gmjs/js-project-generator';
 import { Options } from './types';
 import {
   INVALID_IDENTIFIER_MESSAGE,
   isBlankString,
   isValidIdentifier,
 } from '../../util';
+import { Except } from 'type-fest';
 
 export async function readGeneratorInputs(
   output: string,
   options: Options,
-): Promise<GeneratorInputs> {
+): Promise<Except<GenerateInput, 'authorData'>> {
   const projectName = await promptValueIfMissing(options['projectName'], () =>
     input({
       message: 'Enter project name',

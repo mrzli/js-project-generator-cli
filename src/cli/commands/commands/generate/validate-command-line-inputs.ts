@@ -1,5 +1,8 @@
-import { KINDS_OF_TEMPLATE_LIB, ProjectKind } from '../../types';
-import { KINDS_OF_TEMPLATE_APP } from '../../types/template-app';
+import {
+  KINDS_OF_TEMPLATE_APP,
+  KINDS_OF_TEMPLATE_LIB,
+  ProjectKind,
+} from '@gmjs/js-project-generator';
 import { Options } from './types';
 
 export function validateCommandLineInputs(options: Options): Options {

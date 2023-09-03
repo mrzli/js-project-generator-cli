@@ -1,7 +1,10 @@
 {
   "extends": "./tsconfig.json",
+  "exclude": ["src/**/*.test.ts"],
   "compilerOptions": {
-    "declaration": true
-  },
-  "exclude": ["jest.config.ts", "**/*.test.ts"]
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "lib": ["ES2022"],
+    "target": "ES2022"
+  }
 }

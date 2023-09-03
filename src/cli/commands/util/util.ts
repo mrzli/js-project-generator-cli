@@ -1,11 +1,11 @@
 import { homedir } from 'node:os';
-import { GlobalConfig, GlobalConfigOptionName } from '../types';
 import {
   ensureDirAsync,
   existsAsync,
   readTextAsync,
   writeTextAsync,
 } from '@gmjs/fs-async';
+import { GlobalConfig, GlobalConfigOptionName } from '../types';
 
 export async function readGlobalConfig(): Promise<Partial<GlobalConfig>> {
   const configPath = getGlobalConfigPath();

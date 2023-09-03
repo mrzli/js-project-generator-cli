@@ -4,6 +4,13 @@ All notable changes to the "js-project-generator-cli" will be documented in this
 
 ## [Unreleased]
 
+## [0.0.15] - 2023-09-03
+
+### Changed
+
+- Update packages to latest versions.
+- Make CLI work with latest version of `@gmjs/js-project-generator`.
+
 ## [0.0.14] - 2023-08-18
 
 ### Changed
