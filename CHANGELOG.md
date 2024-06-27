@@ -4,6 +4,13 @@ All notable changes to the "js-project-generator-cli" will be documented in this
 
 ## [Unreleased]
 
+## [0.0.17] - 2024-06-27
+
+### Changed
+
+- Add hashbang to `index.ts`.
+- Update eslint configuration.
+
 ## [0.0.16] - 2024-06-27
 
 ### Changed

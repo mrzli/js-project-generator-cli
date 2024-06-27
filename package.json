@@ -1,6 +1,6 @@
 {
   "name": "@gmjs/js-project-generator-cli",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "CLI for JavaScript/TypeScript project generator.",
   "author": {
     "name": "Goran Mržljak",
@@ -42,7 +42,7 @@
     "tslib": "^2.6.3"
   },
   "devDependencies": {
-    "@gmjs/eslint-config": "^0.0.37",
+    "@gmjs/eslint-config": "^0.0.38",
     "@gmjs/pnpm-publish-cli": "^0.0.2",
     "@jest/globals": "^29.7.0",
     "@types/node": "^20.14.9",
