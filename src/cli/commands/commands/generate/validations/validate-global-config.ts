@@ -1,10 +1,10 @@
 import { mapGetOrThrow } from '@gmjs/data-container-util';
-import { GlobalConfig } from '../../types';
+import { GlobalConfig } from '../../../types';
 import {
   GLOBAL_CONFIG_OPTION_NAMES,
   GLOBAL_CONFIG_OPTION_DISPLAY_NAME_MAP,
   isBlankString,
-} from '../../util';
+} from '../../../util';
 
 export interface ValidateGlobalConfigResultError {
   readonly isValid: false;

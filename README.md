@@ -10,29 +10,76 @@ npm install -g @gmjs/js-project-generator-cli
 
 ## Usage
 
+### Main Command
+
 ```
-Usage
-  $ jsgen <input>
+Usage: jsgen [options] [command]
 
-Options
-  --config, -c        Path to config file
-  --project-type, -t  Project type (shared, node, cli, browser, react)
-  --output, -o        Output directory
-  --project-name, -p  Project name
+TypeScript project generator.
 
-Examples
-  $ jsgen --config config.json --output . --project-name my-project
+Options:
+  -V, --version                  output the version number
+  -h, --help                     display help for command
+
+Commands:
+  generate|g [options] [output]  Generate a new project
+  configure|c                    Configure the global settings
+  help [command]                 display help for command
+```
+
+### Generate Command
+
+Generates a new project.
+
+Uses the global configuration file at `$HOME_DIR/.jsgen/config.js` and the command line options passed to this command.
+
+Global configuration is required to run this command, and currently values specified there cannot be overridden by command line options.
+
+If there are any other missing command line options, you will be prompted to enter them.
+
+```
+Usage: jsgen generate|g [options] [output]
+
+Generate a new project
+
+Arguments:
+  output                            Output directory (default: ".")
+
+Options:
+  -p, --project-name <projectName>  Project name
+  -t, --project-type <projectType>  Project type (choices: "app-vanilla", "app-react", "app-node", "app-nest", "app-cli", "lib-browser", "lib-node",
+                                    "lib-shared")
+  -s, --storybook                   Use Storybook
+  -S, --no-storybook                Do not use Storybook
+  -c, --command-name <commandName>  Command name
+  -h, --help                        display help for command
+
+Examples:
+  jsgen generate -p my-project -t app-react -s /path/to/output
+  jsgen g -p my-project -t app-react -S .
+```
+
+### Configure Command
+
+Creates a global configuration file at `$HOME_DIR/.jsgen/config.js`. This file needs to exists and be filled with the desired configuration options before you are able to run the `generate` command.
+
+Global configuration contains author data, such as name, email etc.
+
+After running the `configure` you will be prompted to enter each configuration option.
+
+```
+Usage: jsgen configure|c [options]
+
+Configure the global settings
+
+Options:
+  -h, --help  display help for command
+
+Examples:
+  jsgen configure
+  jsgen c
 ```
 
 ## Configuration
 
 - See [here](https://github.com/mrzli/js-project-generator) for details on the configuration options.
-
-### Calculating Configuration
-
-The CLI apply configuration in this order, with options in each subsequent configuration overwriting options in the previous configuration (last one wins). Each required option must be set in at least one configuration.
-
-- Configuration at `$HOME_DIR/.jsgen.config.js`.
-- Configuration at `./jsgen.config.js`.
-- Configuration passed via CLI `--config`/`-c` option.
-- Any configuration options passed via other CLI options (see above).

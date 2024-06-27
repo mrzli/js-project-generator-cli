@@ -1,2 +1,2 @@
-export type OptionValue = string;
+export type OptionValue = string | boolean;
 export type Options = Readonly<Record<string, OptionValue | undefined>>;
