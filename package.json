@@ -1,6 +1,6 @@
 {
   "name": "@gmjs/js-project-generator-cli",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "CLI for JavaScript/TypeScript project generator.",
   "author": {
     "name": "Goran Mržljak",
@@ -22,40 +22,41 @@
     "dev": "ts-node src/index.ts",
     "lint": "eslint --fix . && prettier --write .",
     "lint:nofix": "eslint . && prettier --check .",
-    "test-only": "jest --passWithNoTests",
-    "test": "pnpm run lint && pnpm run test-only",
+    "test": "jest --passWithNoTests",
+    "test+": "pnpm run lint && pnpm run test",
     "clean": "shx rm -rf ./dist",
-    "build-only": "pnpm run clean && tsc --project tsconfig.lib.json",
-    "build": "pnpm run test && pnpm run build-only",
-    "pac-only": "pnpmpub pack",
-    "pac": "pnpm run build && pnpm run pac-only",
-    "pub-only": "pnpmpub pub",
-    "pub": "pnpm run pac && pnpm run pub-only"
+    "build": "pnpm run clean && tsc --project tsconfig.lib.json",
+    "build+": "pnpm run test+ && pnpm run build",
+    "pac": "pnpmpub pack -c project.json",
+    "pac+": "pnpm run build+ && pnpm run pac",
+    "pub": "pnpmpub pub -c project.json",
+    "pub+": "pnpm run pac+ && pnpm run pub"
   },
   "dependencies": {
     "@gmjs/data-container-util": "^0.0.1",
     "@gmjs/fs-async": "^0.0.5",
-    "@gmjs/js-project-generator": "^0.0.24",
+    "@gmjs/js-project-generator": "^0.0.26",
     "@gmjs/package-json": "^0.0.2",
-    "@inquirer/prompts": "^5.0.7",
+    "@inquirer/prompts": "^5.1.0",
     "commander": "^12.1.0",
     "tslib": "^2.6.3"
   },
   "devDependencies": {
     "@gmjs/eslint-config": "^0.0.38",
-    "@gmjs/pnpm-publish-cli": "^0.0.2",
+    "@gmjs/pnpm-publish-cli": "^0.0.5",
     "@jest/globals": "^29.7.0",
     "@types/node": "^20.14.9",
-    "eslint": "^9.5.0",
+    "eslint": "^9.6.0",
     "jest": "^29.7.0",
     "prettier": "^3.3.2",
     "shx": "^0.3.4",
     "ts-jest": "^29.1.5",
     "ts-node": "^10.9.2",
     "type-fest": "^4.20.1",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.3"
   },
   "engines": {
     "node": ">=22.3.0"
-  }
+  },
+  "packageManager": "pnpm@9.4.0+sha512.f549b8a52c9d2b8536762f99c0722205efc5af913e77835dbccc3b0b0b2ca9e7dc8022b78062c17291c48e88749c70ce88eb5a74f1fa8c4bf5e18bb46c8bd83a"
 }
