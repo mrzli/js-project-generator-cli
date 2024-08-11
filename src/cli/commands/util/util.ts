@@ -4,7 +4,7 @@ import {
   existsAsync,
   readTextAsync,
   writeTextAsync,
-} from '@gmjs/fs-async';
+} from '@gmjs/file-system';
 import { GlobalConfig, GlobalConfigOptionName } from '../types';
 
 export async function readGlobalConfig(): Promise<Partial<GlobalConfig>> {
