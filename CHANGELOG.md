@@ -4,6 +4,15 @@ All notable changes to the "js-project-generator-cli" will be documented in this
 
 ## [Unreleased]
 
+## [0.0.19] - 2024-08-11
+
+### Changed
+
+- Replace use of `@gmjs/fs-async` with `@gmjs/file-system`.
+- Update packages to latest versions.
+- Update pnpm package manager version.
+- Implement small code change to a change in `@gmjs/package-json` dependency.
+
 ## [0.0.18] - 2024-07-01
 
 ### Changed
