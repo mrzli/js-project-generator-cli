@@ -6,7 +6,10 @@ import { readTextSync } from '@gmjs/file-system';
 export function createProgram(): Command {
   const program = new Command();
 
-  const packageJson = readPackageJsonSync(join(__dirname, '../..'));
+  const packageJson = readPackageJsonSync(
+    join(__dirname, '../..', 'package.json'),
+  );
+
   const version = packageJson.version ?? '';
 
   program

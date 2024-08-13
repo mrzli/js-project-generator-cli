@@ -4,6 +4,12 @@ All notable changes to the "js-project-generator-cli" will be documented in this
 
 ## [Unreleased]
 
+## [0.0.20] - 2024-08-13
+
+### Fixed
+
+- Fix path for reading 'package.json' (for version) that was causing the CLI to crash.
+
 ## [0.0.19] - 2024-08-11
 
 ### Changed
